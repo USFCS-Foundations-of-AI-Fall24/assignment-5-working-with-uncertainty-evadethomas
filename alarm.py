@@ -68,9 +68,9 @@ def main():
     print("\nThe probability of Mary Calling given that John called")
     print(q1)
     print("\nThe probability of both John and Mary calling given Alarm")
-    print(q1)
+    print(q2)
     print("\nThe probability of Alarm, given that Mary called.")
-    print(q1)
+    print(q3)
 
 
 if __name__ == "__main__":

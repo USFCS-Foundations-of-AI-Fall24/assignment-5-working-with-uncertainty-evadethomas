@@ -68,4 +68,40 @@ car_infer = VariableElimination(car_model)
 
 print(car_infer.query(variables=["Moves"],evidence={"Radio":"turns on", "Starts":"yes"}))
 
+print("\nGiven that the car will not move, the probability that the battery is not working:\n")
 
+print(car_infer.query(variables=["Battery"],evidence={"Moves": "no"}))
+
+print("\nGiven that the radio is not working, the probability that the car will not start:\n")
+
+print(car_infer.query(variables=["Starts"],evidence={"Radio": "turns on"}))
+
+print("\nGiven that the battery is working, does the probability of the radio working change if we discover that the car has gas in it:")
+print("Without knowing how much gas we have:\n")
+
+print(car_infer.query(
+    variables=["Radio"],
+    evidence={"Battery": "Works"},
+))
+
+print("After discovering that there is gas: \n")
+print(car_infer.query(
+    variables=["Radio"],
+    evidence={"Battery": "Works", "Gas": "Full"},
+))
+
+print("\nGiven that the car doesn't move, how does the probability of the ignition failing change if we observe that\n the car dies not have gas in it?\n")
+
+print("Ignition failing without a gas level observation: \n")
+print(car_infer.query(
+    variables=["Ignition"],
+    evidence={"Moves": "no"},
+))
+
+print("Ignition failing with a gas level observation of empty: \n")
+print(car_infer.query(
+    variables=["Ignition"],
+    evidence={"Moves": "no", "Gas":"Empty"},
+))
+
+print("What is the probability that the car starts if the radio works and it has gas in it? Include each of your \nqueries in carnet.py.")
