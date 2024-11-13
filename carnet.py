@@ -5,6 +5,7 @@ car_model = BayesianNetwork(
     [
         ("Battery", "Radio"),
         ("Battery", "Ignition"),
+        ("Key", "Starts"),
         ("Ignition","Starts"),
         ("Gas","Starts"),
         ("Starts","Moves")
@@ -45,10 +46,10 @@ cpd_ignition = TabularCPD(
 cpd_starts = TabularCPD(
     variable="Starts",
     variable_card=2,
-    values=[[0.95, 0.05, 0.05, 0.001], [0.05, 0.95, 0.95, 0.9999]],
-    evidence=["Ignition", "Gas"],
-    evidence_card=[2, 2],
-    state_names={"Starts":['yes','no'], "Ignition":["Works", "Doesn't work"], "Gas":['Full',"Empty"]},
+    values=[[0.99, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01], [0.01, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99]],
+    evidence=["Ignition", "Gas", "Key"],
+    evidence_card=[2, 2, 2],
+    state_names={"Starts":['yes','no'], "Ignition":["Works", "Doesn't work"], "Gas":['Full',"Empty"], "Key": ["yes", "no"]},
 )
 
 cpd_moves = TabularCPD(
@@ -60,9 +61,16 @@ cpd_moves = TabularCPD(
                  "Starts": ['yes', 'no'] }
 )
 
+cpd_key = TabularCPD(
+    variable="Key", varible_card=2,
+    values=[[0.7], [0.3]],
+    evidence_card=[2],
+    state_names={"key": ["yes", "no"]},
+)
+
 
 # Associating the parameters with the model structure
-car_model.add_cpds( cpd_starts, cpd_ignition, cpd_gas, cpd_radio, cpd_battery, cpd_moves)
+car_model.add_cpds( cpd_starts, cpd_ignition, cpd_gas, cpd_radio, cpd_battery, cpd_moves, cpd_key)
 
 car_infer = VariableElimination(car_model)
 
@@ -74,17 +82,12 @@ print(car_infer.query(variables=["Battery"],evidence={"Moves": "no"}))
 
 print("\nGiven that the radio is not working, the probability that the car will not start:\n")
 
-print(car_infer.query(variables=["Starts"],evidence={"Radio": "turns on"}))
+print(car_infer.query(variables=["Starts"],evidence={"Radio": "Doesn't turn on"}))
 
 print("\nGiven that the battery is working, does the probability of the radio working change if we discover that the car has gas in it:")
-print("Without knowing how much gas we have:\n")
-
-print(car_infer.query(
-    variables=["Radio"],
-    evidence={"Battery": "Works"},
-))
 
 print("After discovering that there is gas: \n")
+
 print(car_infer.query(
     variables=["Radio"],
     evidence={"Battery": "Works", "Gas": "Full"},
@@ -104,4 +107,16 @@ print(car_infer.query(
     evidence={"Moves": "no", "Gas":"Empty"},
 ))
 
-print("What is the probability that the car starts if the radio works and it has gas in it? Include each of your \nqueries in carnet.py.")
+print("What is the probability that the car starts if the radio works and it has gas in it?")
+
+print(car_infer.query(
+    variables=["Starts"],
+    evidence={"Radio": "turns on", "Gas":"Full"},
+))
+
+print("Showing the probability that the key is not present given that the car does not move.")
+
+print(car_infer.query(
+    variables=["Key"],
+    evidence={"Moves":"no"},
+))
