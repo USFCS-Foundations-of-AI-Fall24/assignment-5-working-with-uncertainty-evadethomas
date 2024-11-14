@@ -28,17 +28,33 @@ class HMM:
               'grumpy': {'silent': '0.5', 'meow': '0.4', 'purr': '0.1'},
               'hungry': {'silent': '0.2', 'meow': '0.6', 'purr': '0.2'}}"""
 
-
-
         self.transitions = transitions
         self.emissions = emissions
 
     ## part 1 - you do this.
     def load(self, basename):
+        emit_dict = {}
+        trans_dict = {}
+
+        file_types = ['.emit', '.trans']
+        for i in range(0, len(file_types)):
+            if file_types[i] == '.emit':
+                file_dict = emit_dict
+            else:
+                file_dict = trans_dict
+            with open(basename + file_types[i], 'r') as file:
+                for line in file:
+                    line_split = line.strip().split(" ")
+                    if line_split[0] not in file_dict:
+                        file_dict[line_split[0]] = {}
+                    file_dict[line_split[0]][line_split[1]] = line_split[2]
+
+        print(emit_dict)
+        print(trans_dict)
+
         """reads HMM structure from transition (basename.trans),
         and emission (basename.emit) files,
         as well as the probabilities."""
-        pass
 
 
    ## you do this.
