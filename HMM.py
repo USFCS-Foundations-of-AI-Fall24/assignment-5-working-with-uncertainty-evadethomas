@@ -1,5 +1,5 @@
 
-
+import numpy as np
 import random
 import argparse
 import codecs
@@ -49,8 +49,8 @@ class HMM:
                         file_dict[line_split[0]] = {}
                     file_dict[line_split[0]][line_split[1]] = line_split[2]
 
-        print(emit_dict)
-        print(trans_dict)
+        self.emissions=emit_dict
+        self.transitions=trans_dict
 
         """reads HMM structure from transition (basename.trans),
         and emission (basename.emit) files,
@@ -60,7 +60,23 @@ class HMM:
    ## you do this.
     def generate(self, n):
         """return an n-length Sequence by randomly sampling from this HMM."""
-        pass
+        trans_state_name = "#"
+        trans = []
+        emis = []
+
+        for i in range(0, n):
+            # Randomly select an outcome based on the probabilities
+            trans_state = self.transitions[trans_state_name]
+            trans_outcome = np.random.choice(list(trans_state.keys()), p=list(trans_state.values()))
+            trans_state_name =  str(trans_outcome)
+            trans.append(trans_state_name)
+            emis_name = self.emissions[trans_state_name]
+            emis_outcome = np.random.choice(list(emis_name.keys()), p=list(emis_name.values()))
+            emis_outcome_string = str(emis_outcome)
+            emis.append(emis_outcome_string)
+
+        print(trans)
+        print(emis)
 
     def forward(self, sequence):
         pass
