@@ -171,7 +171,7 @@ def main():
 
 
     if lander_result != '4,3' and lander_result != '3,4' and lander_result != '4,4' and lander_result != '5,5' and lander_result != '2,5' :
-        print("Safe to land!")
+        print("Safer to land!")
     else:
         print("Not safe to land!")
 
