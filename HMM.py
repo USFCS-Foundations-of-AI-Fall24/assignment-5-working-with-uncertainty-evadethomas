@@ -5,6 +5,8 @@ import argparse
 import codecs
 import os
 import numpy
+from sympy import sequence
+
 
 # Sequence - represents a sequence of hidden states and corresponding
 # output variables.
@@ -75,8 +77,8 @@ class HMM:
             emis_outcome_string = str(emis_outcome)
             emis.append(emis_outcome_string)
 
-        print(trans)
-        print(emis)
+        seq = Sequence(trans, emis)
+        return seq
 
     def forward(self, sequence):
         pass
@@ -93,7 +95,20 @@ class HMM:
     ## You do this. Given a sequence with a list of emissions, fill in the most likely
     ## hidden states using the Viterbi algorithm.
 
+def main():
+    parser = argparse.ArgumentParser(description="Arguments for HMM")
+    parser.add_argument('file_name', type=str, help='enter the data to process')
+    parser.add_argument('--generate', type=int, help='number of observations requested', default = 0)
 
+    args = parser.parse_args()
+
+    h = HMM()
+    h.load(args.file_name)
+
+    print(str(h.generate(args.generate)))
+
+if __name__ == "__main__":
+    main()
 
 
 
