@@ -13,4 +13,5 @@ class TestMarkov(unittest.TestCase):
         h.load('cat')
         self.assertEqual(h.emissions, e1)
         self.assertEqual(h.transitions, t1)
-        h.generate(10)
+        seq = h.generate(10)
+        h.forward(seq)
