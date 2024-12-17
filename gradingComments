@@ -1,0 +1,57 @@
+Assignment 5 Comments:
+
+sklearn:
+
+new dataset. 5/5
+
+random forest 5/5
+
+GridSearchCV 5/5
+
+Scatterplot 5/5
+
+Belief Networks:
+
+alarm queries 5/5
+
+car queries 3/5
+cpd_starts has an extra value in it.
+
+additional node 2/5
+cpd_key is missing evidence.
+
+HMM:
+
+load 5/5
+
+generate 10/10
+
+lander models 5/5
+
+forward 7/10
+Generates an error:
+  File "/Users/cbrooks/courses/Fall24/CS362/student_repos/assignment5/assignment-5-working-with-uncertainty-submissions/assignment-5-working-with-uncertainty-evadethomas/HMM.py", line 164, in main
+    print(h.forward(seq))
+  File "/Users/cbrooks/courses/Fall24/CS362/student_repos/assignment5/assignment-5-working-with-uncertainty-submissions/assignment-5-working-with-uncertainty-evadethomas/HMM.py", line 92, in forward
+    obs_1 = sequence.outputseq[0]
+IndexError: list index out of range
+
+viterbi 0/15
+not done
+
+Utility:
+
+q1 5/5
+
+q2 5/5
+
+q3 2/2
+
+q4 3/3
+
+q5 2/2
+
+q6 3/3
+
+77/100
+
